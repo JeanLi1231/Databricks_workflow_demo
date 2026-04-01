@@ -1,0 +1,477 @@
+{
+  "datasets": [
+    {
+      "name": "62bd5229",
+      "displayName": "analysis_result",
+      "queryLines": [
+        "SELECT \n",
+        "  PULocationID,\n",
+        "  pickup_hour,\n",
+        "  predicted_fare_per_mile\n",
+        "FROM workspace.taxi_schema.analysis_result\n",
+        "ORDER BY PULocationID, pickup_hour"
+      ]
+    },
+    {
+      "name": "taxi_analysis",
+      "displayName": "Taxi Fare Analysis",
+      "queryLines": [
+        "SELECT\n",
+        "  *\n",
+        "FROM\n",
+        "  workspace.taxi_schema.analysis_result"
+      ],
+      "catalog": "workspace",
+      "schema": "taxi_schema"
+    }
+  ],
+  "pages": [
+    {
+      "name": "b0410c71",
+      "displayName": "Untitled page",
+      "layout": [
+        {
+          "widget": {
+            "name": "counter_locations",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "taxi_analysis",
+                  "fields": [
+                    {
+                      "name": "countdistinct(PULocationID)",
+                      "expression": "COUNT(DISTINCT `PULocationID`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Pickup Locations",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(PULocationID)",
+                  "displayName": "Location Count"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 2,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_avg_error",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "taxi_analysis",
+                  "fields": [
+                    {
+                      "name": "avg(absolute_error)",
+                      "expression": "AVG(`absolute_error`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Avg Prediction Error",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg(absolute_error)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    },
+                    "abbreviation": "none"
+                  },
+                  "displayName": "Mean Absolute Error"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 4,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_trips",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "taxi_analysis",
+                  "fields": [
+                    {
+                      "name": "sum(trip_count)",
+                      "expression": "SUM(`trip_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Trips Analyzed",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(trip_count)",
+                  "displayName": "Trip Count"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "bar_fare_by_hour",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "taxi_analysis",
+                  "fields": [
+                    {
+                      "name": "pickup_hour",
+                      "expression": "`pickup_hour`"
+                    },
+                    {
+                      "name": "avg(predicted_fare_per_mile)",
+                      "expression": "AVG(`predicted_fare_per_mile`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Average Predicted Fare by Hour",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "pickup_hour",
+                  "displayName": "Pickup Hour",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(predicted_fare_per_mile)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    },
+                    "abbreviation": "none"
+                  },
+                  "displayName": "Avg Predicted Fare",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 8,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "dual_line_comparison",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "taxi_analysis",
+                  "fields": [
+                    {
+                      "name": "pickup_hour",
+                      "expression": "`pickup_hour`"
+                    },
+                    {
+                      "name": "avg(predicted_fare_per_mile)",
+                      "expression": "AVG(`predicted_fare_per_mile`)"
+                    },
+                    {
+                      "name": "avg(actual_fare_per_mile)",
+                      "expression": "AVG(`actual_fare_per_mile`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Actual vs Predicted Fare Comparison",
+                "showTitle": true
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "pickup_hour",
+                  "displayName": "Pickup Hour",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "primary": {
+                    "fields": [
+                      {
+                        "fieldName": "avg(predicted_fare_per_mile)",
+                        "displayName": "Predicted"
+                      }
+                    ],
+                    "scale": {
+                      "type": "quantitative"
+                    }
+                  },
+                  "secondary": {
+                    "fields": [
+                      {
+                        "fieldName": "avg(actual_fare_per_mile)",
+                        "displayName": "Actual"
+                      }
+                    ],
+                    "scale": {
+                      "type": "quantitative"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 8,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "table_details",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "taxi_analysis",
+                  "fields": [
+                    {
+                      "name": "PULocationID",
+                      "expression": "`PULocationID`"
+                    },
+                    {
+                      "name": "pickup_hour",
+                      "expression": "`pickup_hour`"
+                    },
+                    {
+                      "name": "predicted_fare_per_mile",
+                      "expression": "`predicted_fare_per_mile`"
+                    },
+                    {
+                      "name": "actual_fare_per_mile",
+                      "expression": "`actual_fare_per_mile`"
+                    },
+                    {
+                      "name": "prediction_error",
+                      "expression": "`prediction_error`"
+                    },
+                    {
+                      "name": "absolute_error",
+                      "expression": "`absolute_error`"
+                    },
+                    {
+                      "name": "trip_count",
+                      "expression": "`trip_count`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Fare Prediction Details by Location & Hour",
+                "showTitle": true
+              },
+              "rowsPerPage": 25,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "PULocationID",
+                    "displayName": "Location ID"
+                  },
+                  {
+                    "fieldName": "pickup_hour",
+                    "displayName": "Hour"
+                  },
+                  {
+                    "fieldName": "predicted_fare_per_mile",
+                    "displayName": "Predicted Fare"
+                  },
+                  {
+                    "fieldName": "actual_fare_per_mile",
+                    "displayName": "Actual Fare"
+                  },
+                  {
+                    "fieldName": "prediction_error",
+                    "displayName": "Error"
+                  },
+                  {
+                    "fieldName": "absolute_error",
+                    "displayName": "Abs Error"
+                  },
+                  {
+                    "fieldName": "trip_count",
+                    "displayName": "Trips"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "735c0824",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "62bd5229",
+                  "fields": [
+                    {
+                      "name": "avg(predicted_fare_per_mile)",
+                      "expression": "AVG(`predicted_fare_per_mile`)"
+                    },
+                    {
+                      "name": "PULocationID",
+                      "expression": "`PULocationID`"
+                    },
+                    {
+                      "name": "pickup_hour",
+                      "expression": "`pickup_hour`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true
+              },
+              "widgetType": "heatmap",
+              "encodings": {
+                "x": {
+                  "fieldName": "PULocationID",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "pickup_hour",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "avg(predicted_fare_per_mile)",
+                  "displayName": "price/mile prediction",
+                  "scale": {
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "scheme",
+                      "scheme": "orangered"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 18,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "dc2bdbd9",
+      "displayName": "Global Filters",
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
