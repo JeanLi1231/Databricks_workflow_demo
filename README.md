@@ -97,16 +97,6 @@ The dashboard visualizes the `analysis_result` table with:
 - Detail table by location and hour
 - Heatmap of predicted price-per-mile by `PULocationID` and `pickup_hour`
 
-## Suggested Databricks Workflow Order
-
-Orchestrate these notebooks in Databricks Workflows in this sequence:
-
-1. `Notebooks/01_bronze.py.ipynb`
-2. `Notebooks/02_silver.py.ipynb`
-3. `Notebooks/03_gold.py.ipynb`
-4. `Notebooks/04_analysis.py.ipynb`
-
-Then refresh/publish the Lakeview dashboard using `analysis_result` as the source.
 
 ## Prerequisites
 
