@@ -4,25 +4,10 @@
       "name": "62bd5229",
       "displayName": "analysis_result",
       "queryLines": [
-        "SELECT \n",
-        "  PULocationID,\n",
-        "  pickup_hour,\n",
-        "  predicted_fare_per_mile\n",
+        "SELECT *\n",
         "FROM workspace.taxi_schema.analysis_result\n",
         "ORDER BY PULocationID, pickup_hour"
       ]
-    },
-    {
-      "name": "taxi_analysis",
-      "displayName": "Taxi Fare Analysis",
-      "queryLines": [
-        "SELECT\n",
-        "  *\n",
-        "FROM\n",
-        "  workspace.taxi_schema.analysis_result"
-      ],
-      "catalog": "workspace",
-      "schema": "taxi_schema"
     }
   ],
   "pages": [
@@ -37,7 +22,7 @@
               {
                 "name": "main_query",
                 "query": {
-                  "datasetName": "taxi_analysis",
+                  "datasetName": "62bd5229",
                   "fields": [
                     {
                       "name": "countdistinct(PULocationID)",
@@ -77,7 +62,7 @@
               {
                 "name": "main_query",
                 "query": {
-                  "datasetName": "taxi_analysis",
+                  "datasetName": "62bd5229",
                   "fields": [
                     {
                       "name": "avg(absolute_error)",
@@ -126,7 +111,7 @@
               {
                 "name": "main_query",
                 "query": {
-                  "datasetName": "taxi_analysis",
+                  "datasetName": "62bd5229",
                   "fields": [
                     {
                       "name": "sum(trip_count)",
@@ -166,7 +151,7 @@
               {
                 "name": "main_query",
                 "query": {
-                  "datasetName": "taxi_analysis",
+                  "datasetName": "62bd5229",
                   "fields": [
                     {
                       "name": "pickup_hour",
@@ -232,7 +217,7 @@
               {
                 "name": "main_query",
                 "query": {
-                  "datasetName": "taxi_analysis",
+                  "datasetName": "62bd5229",
                   "fields": [
                     {
                       "name": "pickup_hour",
@@ -261,34 +246,22 @@
               "encodings": {
                 "x": {
                   "fieldName": "pickup_hour",
-                  "displayName": "Pickup Hour",
                   "scale": {
                     "type": "quantitative"
                   }
                 },
                 "y": {
-                  "primary": {
-                    "fields": [
-                      {
-                        "fieldName": "avg(predicted_fare_per_mile)",
-                        "displayName": "Predicted"
-                      }
-                    ],
-                    "scale": {
-                      "type": "quantitative"
-                    }
+                  "scale": {
+                    "type": "quantitative"
                   },
-                  "secondary": {
-                    "fields": [
-                      {
-                        "fieldName": "avg(actual_fare_per_mile)",
-                        "displayName": "Actual"
-                      }
-                    ],
-                    "scale": {
-                      "type": "quantitative"
+                  "fields": [
+                    {
+                      "fieldName": "avg(predicted_fare_per_mile)"
+                    },
+                    {
+                      "fieldName": "avg(actual_fare_per_mile)"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -296,7 +269,7 @@
           "position": {
             "x": 0,
             "y": 6,
-            "width": 8,
+            "width": 12,
             "height": 6
           }
         },
@@ -307,7 +280,7 @@
               {
                 "name": "main_query",
                 "query": {
-                  "datasetName": "taxi_analysis",
+                  "datasetName": "62bd5229",
                   "fields": [
                     {
                       "name": "PULocationID",
@@ -426,12 +399,14 @@
               "encodings": {
                 "x": {
                   "fieldName": "PULocationID",
+                  "displayName": "Pickup Area Code",
                   "scale": {
-                    "type": "quantitative"
+                    "type": "categorical"
                   }
                 },
                 "y": {
                   "fieldName": "pickup_hour",
+                  "displayName": "Pick up time",
                   "scale": {
                     "type": "quantitative"
                   }
